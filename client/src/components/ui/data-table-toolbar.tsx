@@ -55,7 +55,15 @@ export function DataTableToolbar<TData>({
         )}
       </div>
       {onAddNew && (
-        <Button className="h-8" onClick={onAddNew}>
+        <Button 
+          className="h-8 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white" 
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onAddNew();
+          }}
+          type="button"
+        >
           <Plus className="mr-2 h-4 w-4" />
           Add New
         </Button>

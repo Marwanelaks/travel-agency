@@ -245,21 +245,26 @@ export function ShopPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm">
+      <header className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
+          <div className="flex justify-between h-20 items-center">
             <div className="flex-shrink-0 flex items-center">
-              <Link to="/" className="text-2xl font-bold text-primary">TravelEase</Link>
+              <Link to="/" className="text-2xl font-bold text-white flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M5.5 16a.5.5 0 01-.5-.5v-6a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v6a.5.5 0 01-.5.5h-2zm4-10a.5.5 0 01-.5-.5v-2a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v2a.5.5 0 01-.5.5h-2zm4 10a.5.5 0 01-.5-.5v-10a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v10a.5.5 0 01-.5.5h-2z" />
+                </svg>
+                TravelEase
+              </Link>
             </div>
             <div className="hidden sm:block flex-1 max-w-md mx-auto">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search className="h-5 w-5 text-gray-400" />
+                  <Search className="h-5 w-5 text-indigo-200" />
                 </div>
                 <Input
                   type="text"
-                  placeholder="Search products..."
-                  className="pl-10 pr-4 py-2 w-full"
+                  placeholder="Search destinations, hotels, flights..."
+                  className="pl-10 pr-4 py-2 w-full bg-indigo-700/30 border-indigo-500/50 text-white placeholder:text-indigo-200 focus:bg-indigo-800/40 transition-all duration-200"
                   value={filters.searchQuery}
                   onChange={(e) => setFilters({ ...filters, searchQuery: e.target.value })}
                 />
@@ -267,25 +272,65 @@ export function ShopPage() {
             </div>
             <nav className="flex items-center space-x-4">
               <MiniCart />
-              <Button asChild variant="ghost">
+              <Button asChild variant="secondary" className="bg-white/10 hover:bg-white/20 text-white border-none">
                 <Link to="/dashboard">Dashboard</Link>
               </Button>
             </nav>
           </div>
         </div>
       </header>
+      
+      {/* Hero Section */}
+      <div className="relative bg-gradient-to-b from-indigo-600 to-indigo-900 text-white overflow-hidden">
+        <div className="absolute inset-0 z-0 opacity-20">
+          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+            <path fill="#fff" fillOpacity="1" d="M0,192L48,176C96,160,192,128,288,133.3C384,139,480,181,576,192C672,203,768,181,864,165.3C960,149,1056,139,1152,144C1248,149,1344,171,1392,181.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+          </svg>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Discover Your Perfect Getaway</h1>
+            <p className="text-xl max-w-3xl mx-auto text-indigo-100 mb-8">Explore our curated selection of hotels, flights, and vacation packages designed for unforgettable experiences.</p>
+            <div className="flex flex-wrap justify-center gap-4 max-w-2xl mx-auto mb-6">
+              {categories.map((category) => (
+                <Button 
+                  key={category.id}
+                  variant="secondary"
+                  className={`bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 ${filters.categories.includes(category.id) ? 'bg-white/30 ring-2 ring-white' : ''}`}
+                  onClick={() => {
+                    if (filters.categories.includes(category.id)) {
+                      setFilters({
+                        ...filters,
+                        categories: filters.categories.filter(c => c !== category.id)
+                      });
+                    } else {
+                      setFilters({
+                        ...filters,
+                        categories: [...filters.categories, category.id]
+                      });
+                    }
+                  }}
+                >
+                  {category.name}
+                </Button>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="h-16 bg-gradient-to-b from-indigo-900/0 to-gray-50 relative z-10"></div>
+      </div>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Mobile search - visible only on small screens */}
         <div className="sm:hidden mb-4">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-gray-400" />
+              <Search className="h-5 w-5 text-indigo-400" />
             </div>
             <Input
               type="text"
-              placeholder="Search products..."
-              className="pl-10 pr-4 py-2 w-full"
+              placeholder="Search destinations, hotels, flights..."
+              className="pl-10 pr-4 py-2 w-full border-indigo-200 focus:border-indigo-500 transition-all duration-200"
               value={filters.searchQuery}
               onChange={(e) => setFilters({ ...filters, searchQuery: e.target.value })}
             />
@@ -294,17 +339,18 @@ export function ShopPage() {
 
         <div className="flex flex-col md:flex-row gap-6">
           {/* Filters Sidebar */}
-          <aside className={`md:w-64 shrink-0 transition-all duration-300 ease-in-out ${showFilters ? 'block' : 'hidden md:block'}`}>
-            <div className="bg-white p-4 rounded-lg shadow-sm border">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold flex items-center">
-                  <Filter className="w-5 h-5 mr-2" />
-                  Filters
+          <aside className={`md:w-72 shrink-0 transition-all duration-300 ease-in-out ${showFilters ? 'block' : 'hidden md:block'}`}>
+            <div className="bg-white p-6 rounded-xl shadow-md border border-indigo-100 overflow-hidden relative">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500"></div>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-lg font-semibold flex items-center text-indigo-900">
+                  <Filter className="w-5 h-5 mr-2 text-indigo-600" />
+                  Refine Results
                 </h2>
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  className="md:hidden"
+                  className="md:hidden text-indigo-600 hover:bg-indigo-50"
                   onClick={() => setShowFilters(false)}
                 >
                   <X className="w-5 h-5" />
@@ -313,10 +359,15 @@ export function ShopPage() {
 
               <Accordion type="single" collapsible className="w-full">
                 {/* Price Range Filter */}
-                <AccordionItem value="price">
-                  <AccordionTrigger className="text-sm font-medium">Price Range</AccordionTrigger>
+                <AccordionItem value="price" className="border-b border-indigo-100">
+                  <AccordionTrigger className="text-sm font-medium text-indigo-900 hover:text-indigo-700 hover:no-underline py-4">
+                    <div className="flex items-center">
+                      <Tag className="w-4 h-4 mr-2 text-indigo-600" />
+                      Price Range
+                    </div>
+                  </AccordionTrigger>
                   <AccordionContent>
-                    <div className="py-2">
+                    <div className="py-4 px-1">
                       <Slider
                         defaultValue={[0, 10000]}
                         max={10000}
@@ -326,10 +377,10 @@ export function ShopPage() {
                         className="my-6"
                       />
                       <div className="flex items-center justify-between">
-                        <span className="bg-gray-100 px-2 py-1 rounded text-sm">
+                        <span className="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-md text-sm font-medium">
                           ${filters.priceRange[0]}
                         </span>
-                        <span className="bg-gray-100 px-2 py-1 rounded text-sm">
+                        <span className="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-md text-sm font-medium">
                           ${filters.priceRange[1]}
                         </span>
                       </div>
@@ -338,32 +389,41 @@ export function ShopPage() {
                 </AccordionItem>
 
                 {/* Categories Filter */}
-                <AccordionItem value="categories">
-                  <AccordionTrigger className="text-sm font-medium">Categories</AccordionTrigger>
+                <AccordionItem value="categories" className="border-b border-indigo-100">
+                  <AccordionTrigger className="text-sm font-medium text-indigo-900 hover:text-indigo-700 hover:no-underline py-4">
+                    <div className="flex items-center">
+                      <Filter className="w-4 h-4 mr-2 text-indigo-600" />
+                      Categories
+                    </div>
+                  </AccordionTrigger>
                   <AccordionContent>
-                    <div className="space-y-2">
+                    <div className="grid grid-cols-2 gap-3 py-2">
                       {categories.map((category) => (
-                        <div className="flex items-center space-x-2" key={category.id}>
+                        <div 
+                          key={category.id}
+                          className={`flex items-center p-2 rounded-lg cursor-pointer transition-all duration-200 ${filters.categories.includes(category.id) ? 'bg-indigo-100 text-indigo-800' : 'hover:bg-gray-50'}`}
+                          onClick={() => {
+                            if (filters.categories.includes(category.id)) {
+                              setFilters({
+                                ...filters,
+                                categories: filters.categories.filter(c => c !== category.id)
+                              });
+                            } else {
+                              setFilters({
+                                ...filters,
+                                categories: [...filters.categories, category.id]
+                              });
+                            }
+                          }}
+                        >
                           <Checkbox 
                             id={`category-${category.id}`} 
                             checked={filters.categories.includes(category.id)}
-                            onCheckedChange={(checked) => {
-                              if (checked) {
-                                setFilters({
-                                  ...filters,
-                                  categories: [...filters.categories, category.id]
-                                });
-                              } else {
-                                setFilters({
-                                  ...filters,
-                                  categories: filters.categories.filter(c => c !== category.id)
-                                });
-                              }
-                            }}
+                            className="data-[state=checked]:bg-indigo-600 data-[state=checked]:text-primary-foreground"
                           />
                           <label 
                             htmlFor={`category-${category.id}`}
-                            className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            className="text-sm ml-2 font-medium cursor-pointer select-none"
                           >
                             {category.name}
                           </label>
@@ -374,27 +434,44 @@ export function ShopPage() {
                 </AccordionItem>
 
                 {/* Rating Filter */}
-                <AccordionItem value="rating">
-                  <AccordionTrigger className="text-sm font-medium">Rating</AccordionTrigger>
+                <AccordionItem value="rating" className="border-b border-indigo-100">
+                  <AccordionTrigger className="text-sm font-medium text-indigo-900 hover:text-indigo-700 hover:no-underline py-4">
+                    <div className="flex items-center">
+                      <Star className="w-4 h-4 mr-2 text-indigo-600" />
+                      Rating
+                    </div>
+                  </AccordionTrigger>
                   <AccordionContent>
-                    <div className="space-y-2">
+                    <div className="space-y-3 py-2">
                       {[5, 4, 3, 2, 1].map((star) => (
-                        <div className="flex items-center space-x-2" key={star}>
+                        <div 
+                          className={`flex items-center p-2 rounded-lg cursor-pointer transition-all duration-200 ${filters.rating === star ? 'bg-amber-50 text-amber-800' : 'hover:bg-gray-50'}`} 
+                          key={star}
+                          onClick={() => {
+                            setFilters({
+                              ...filters,
+                              rating: filters.rating === star ? null : star
+                            });
+                          }}
+                        >
                           <Checkbox 
                             id={`rating-${star}`} 
                             checked={filters.rating === star}
-                            onCheckedChange={(checked) => {
-                              setFilters({
-                                ...filters,
-                                rating: checked ? star : null
-                              });
-                            }}
+                            className="data-[state=checked]:bg-amber-500 data-[state=checked]:text-primary-foreground"
                           />
                           <label 
                             htmlFor={`rating-${star}`}
-                            className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center"
+                            className="text-sm ml-2 font-medium cursor-pointer select-none flex items-center"
                           >
-                            {renderStarRating(star)} <span className="ml-1">& Up</span>
+                            <div className="flex items-center text-amber-400">
+                              {[...Array(5)].map((_, i) => (
+                                <Star
+                                  key={i}
+                                  className={`w-4 h-4 ${i < star ? 'fill-current' : 'text-gray-300'}`}
+                                />
+                              ))}
+                            </div>
+                            <span className="ml-2 text-gray-700">& Up</span>
                           </label>
                         </div>
                       ))}
@@ -403,36 +480,44 @@ export function ShopPage() {
                 </AccordionItem>
 
                 {/* Discounts Filter */}
-                <AccordionItem value="discounts">
-                  <AccordionTrigger className="text-sm font-medium">Discounts</AccordionTrigger>
+                <AccordionItem value="discounts" className="border-b border-indigo-100">
+                  <AccordionTrigger className="text-sm font-medium text-indigo-900 hover:text-indigo-700 hover:no-underline py-4">
+                    <div className="flex items-center">
+                      <BadgePercent className="w-4 h-4 mr-2 text-indigo-600" />
+                      Special Offers
+                    </div>
+                  </AccordionTrigger>
                   <AccordionContent>
-                    <div className="flex items-center space-x-2">
+                    <div 
+                      className={`flex items-center p-3 rounded-lg cursor-pointer transition-all duration-200 ${filters.onlyDiscounted ? 'bg-rose-50 text-rose-800' : 'hover:bg-gray-50'}`}
+                      onClick={() => {
+                        setFilters({
+                          ...filters,
+                          onlyDiscounted: !filters.onlyDiscounted
+                        });
+                      }}
+                    >
                       <Checkbox 
                         id="discounted-only" 
                         checked={filters.onlyDiscounted}
-                        onCheckedChange={(checked) => {
-                          setFilters({
-                            ...filters,
-                            onlyDiscounted: checked as boolean
-                          });
-                        }}
+                        className="data-[state=checked]:bg-rose-600 data-[state=checked]:text-primary-foreground"
                       />
                       <label 
                         htmlFor="discounted-only"
-                        className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center"
+                        className="text-sm ml-2 font-medium cursor-pointer select-none flex items-center"
                       >
-                        <BadgePercent className="w-4 h-4 mr-1 text-red-500" />
-                        On Sale
+                        <BadgePercent className="w-4 h-4 mr-1 text-rose-500" />
+                        <span className="font-medium">Items on Sale</span>
                       </label>
                     </div>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
 
-              <div className="mt-4 pt-4 border-t">
+              <div className="mt-6 pt-4 border-t border-indigo-100">
                 <Button 
                   variant="outline" 
-                  className="w-full"
+                  className="w-full bg-white border-indigo-200 text-indigo-700 hover:bg-indigo-50 hover:text-indigo-800 transition-all duration-200 font-medium"
                   onClick={() => {
                     setFilters({
                       priceRange: [0, 10000],
@@ -444,7 +529,8 @@ export function ShopPage() {
                     });
                   }}
                 >
-                  Clear Filters
+                  <X className="w-4 h-4 mr-2" />
+                  Reset All Filters
                 </Button>
               </div>
             </div>
@@ -552,18 +638,31 @@ export function ShopPage() {
 
             {/* Products Grid */}
             {isLoading ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[...Array(6)].map((_, i) => (
-                  <Card key={i} className="overflow-hidden">
-                    <Skeleton className="h-48 w-full" />
-                    <div className="p-4">
+                  <Card key={i} className="overflow-hidden rounded-xl border-0 shadow-md">
+                    <div className="relative">
+                      <Skeleton className="h-56 w-full" />
+                      <div className="absolute top-2 right-2">
+                        <Skeleton className="h-6 w-12 rounded-full" />
+                      </div>
+                    </div>
+                    <div className="p-6">
                       <Skeleton className="h-6 w-3/4 mb-2" />
                       <Skeleton className="h-4 w-1/2 mb-4" />
+                      <div className="flex mb-3">
+                        {[...Array(5)].map((_, starIndex) => (
+                          <Skeleton key={starIndex} className="h-4 w-4 mr-1 rounded-full" />
+                        ))}
+                      </div>
                       <Skeleton className="h-4 w-full mb-2" />
                       <Skeleton className="h-4 w-2/3 mb-4" />
-                      <div className="flex justify-between">
-                        <Skeleton className="h-6 w-16" />
-                        <Skeleton className="h-9 w-24" />
+                      <div className="flex justify-between items-center">
+                        <Skeleton className="h-7 w-20" />
+                        <div className="flex gap-2">
+                          <Skeleton className="h-9 w-20 rounded-lg" />
+                          <Skeleton className="h-9 w-16 rounded-lg" />
+                        </div>
                       </div>
                     </div>
                   </Card>
@@ -581,7 +680,7 @@ export function ShopPage() {
                 </Button>
               </div>
             ) : filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredProducts.map((product) => {
                   const discountPercentage = (product as any).discountPercentage || 0;
                   const hasDiscount = discountPercentage > 0;
@@ -590,13 +689,14 @@ export function ShopPage() {
                     : product.price;
                     
                   return (
-                    <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
+                    <Card key={product.id} className="overflow-hidden group hover:shadow-xl transition-all duration-300 h-full flex flex-col border-0 shadow-md rounded-xl">
                       {/* Product Image with Discount Badge */}
-                      <div className="relative">
+                      <div className="relative overflow-hidden">
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         <img
                           src={product.image}
                           alt={product.name}
-                          className="h-48 w-full object-cover"
+                          className="h-56 w-full object-cover transform group-hover:scale-105 transition-transform duration-500"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.src = getDefaultImageByType(product.type);
@@ -604,46 +704,89 @@ export function ShopPage() {
                         />
                         
                         {/* Category Badge */}
-                        <div className="absolute top-2 left-2">
-                          <Badge className="bg-white/80 text-primary hover:bg-white/70">
+                        <div className="absolute top-3 left-3 z-20">
+                          <Badge className="bg-white/90 text-indigo-600 hover:bg-white font-medium shadow-sm">
                             {product.type.charAt(0).toUpperCase() + product.type.slice(1)}
                           </Badge>
                         </div>
                         
                         {/* Discount Badge */}
                         {hasDiscount && (
-                          <div className="absolute top-2 right-2">
-                            <Badge className="bg-red-500 text-white hover:bg-red-600">
-                              -{discountPercentage}%
+                          <div className="absolute top-3 right-3 z-20">
+                            <Badge className="bg-gradient-to-r from-rose-500 to-pink-500 text-white font-medium shadow-sm">
+                              -{discountPercentage}% OFF
                             </Badge>
                           </div>
                         )}
+                        
+                        {/* Quick Action Buttons (visible on hover) */}
+                        <div className="absolute bottom-3 right-3 left-3 z-20 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <Button 
+                            variant="secondary" 
+                            size="sm"
+                            className="bg-white/90 hover:bg-white text-indigo-600 rounded-full w-10 h-10 p-0 mr-2"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handleAddToCart(product.id);
+                            }}
+                            disabled={addingToCart[product.id]}
+                          >
+                            {addingToCart[product.id] ? (
+                              <span className="animate-spin">⟳</span>
+                            ) : (
+                              <ShoppingCart className="w-5 h-5" />
+                            )}
+                          </Button>
+                          <Button 
+                            asChild 
+                            variant="secondary"
+                            size="sm"
+                            className="bg-white/90 hover:bg-white text-indigo-600 rounded-full w-10 h-10 p-0"
+                          >
+                            <Link to={`/products/${product.id}`}>
+                              <Eye className="w-5 h-5" />
+                            </Link>
+                          </Button>
+                        </div>
                       </div>
                       
-                      <div className="flex flex-col flex-grow p-4">
+                      <div className="flex flex-col flex-grow p-5">
                         {/* Title and Location */}
                         <div>
-                          <CardTitle className="text-lg line-clamp-1">{product.name}</CardTitle>
-                          <p className="text-sm text-muted-foreground">
+                          <CardTitle className="text-lg font-bold line-clamp-1 group-hover:text-indigo-600 transition-colors duration-200">{product.name}</CardTitle>
+                          <p className="text-sm text-gray-500 flex items-center mt-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
                             {product.location}
                           </p>
                         </div>
                         
                         {/* Rating */}
-                        <div className="mt-2">
-                          {renderStarRating(product.rating || 0)}
+                        <div className="mt-3 flex items-center">
+                          <div className="flex text-amber-400">
+                            {[...Array(5)].map((_, i) => (
+                              <Star
+                                key={i}
+                                className={`w-4 h-4 ${i < Math.round(product.rating || 0) ? 'fill-current' : 'text-gray-300'}`}
+                              />
+                            ))}
+                          </div>
+                          <span className="ml-2 text-xs text-gray-500">{product.rating?.toFixed(1) || '0.0'}/5.0</span>
                         </div>
                         
                         {/* Description */}
-                        <CardDescription className="line-clamp-2 mt-2 flex-grow">
+                        <CardDescription className="line-clamp-2 mt-3 text-gray-600 flex-grow">
                           {product.description || 'No description available.'}
                         </CardDescription>
                         
                         {/* Price */}
-                        <div className="mt-3 mb-3">
+                        <div className="mt-4 mb-3">
                           {hasDiscount ? (
-                            <div>
-                              <span className="text-lg font-bold text-red-500">
+                            <div className="flex items-center">
+                              <span className="text-xl font-bold text-indigo-600">
                                 ${discountedPrice.toFixed(2)}
                               </span>
                               <span className="text-sm text-gray-500 line-through ml-2">
@@ -651,18 +794,17 @@ export function ShopPage() {
                               </span>
                             </div>
                           ) : (
-                            <span className="text-lg font-bold">
+                            <span className="text-xl font-bold text-indigo-600">
                               ${product.price.toFixed(2)}
                             </span>
                           )}
                         </div>
                         
                         {/* Actions */}
-                        <div className="flex gap-2 mt-auto">
+                        <div className="flex gap-2 mt-auto pt-3 border-t border-gray-100">
                           <Button 
-                            variant="outline" 
+                            className="flex-1 bg-indigo-600 hover:bg-indigo-700"
                             size="sm"
-                            className="flex-1"
                             onClick={(e) => {
                               e.preventDefault();
                               e.stopPropagation();
@@ -674,19 +816,19 @@ export function ShopPage() {
                               <span className="animate-pulse">Adding...</span>
                             ) : (
                               <>
-                                <ShoppingCart className="w-4 h-4 mr-1" />
+                                <ShoppingCart className="w-4 h-4 mr-2" />
                                 Add to Cart
                               </>
                             )}
                           </Button>
                           <Button 
                             asChild 
+                            variant="outline" 
                             size="sm"
-                            className="flex-1"
+                            className="flex-[0.4] border-indigo-200 text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700"
                           >
                             <Link to={`/products/${product.id}`}>
-                              <Eye className="w-4 h-4 mr-1" />
-                              View
+                              <Eye className="w-4 h-4" />
                             </Link>
                           </Button>
                         </div>
@@ -696,31 +838,39 @@ export function ShopPage() {
                 })}
               </div>
             ) : (
-              <div className="text-center py-12 bg-white rounded-lg shadow-sm border">
-                <p className="text-muted-foreground">No products match your filters.</p>
-                <Button 
-                  onClick={() => {
-                    setFilters({
-                      priceRange: [0, 10000],
-                      categories: [],
-                      rating: null,
-                      searchQuery: '',
-                      sortBy: 'popularity',
-                      onlyDiscounted: false
-                    });
-                  }} 
-                  className="mt-4"
-                  variant="outline"
-                >
-                  Clear Filters
-                </Button>
+              <div className="text-center py-16 bg-white rounded-xl shadow-md border-0">
+                <div className="max-w-md mx-auto">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-indigo-200 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  </svg>
+                  <h3 className="text-xl font-bold text-indigo-900 mb-2">No Results Found</h3>
+                  <p className="text-gray-500 mb-6">We couldn't find any products that match your current filters. Try adjusting your search criteria.</p>
+                  <Button 
+                    onClick={() => {
+                      setFilters({
+                        priceRange: [0, 10000],
+                        categories: [],
+                        rating: null,
+                        searchQuery: '',
+                        sortBy: 'popularity',
+                        onlyDiscounted: false
+                      });
+                    }} 
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white"
+                  >
+                    <X className="w-4 h-4 mr-2" />
+                    Reset All Filters
+                  </Button>
+                </div>
               </div>
             )}
             
             {/* Results Count */}
             {filteredProducts.length > 0 && (
-              <div className="mt-6 text-center text-sm text-gray-500">
-                Showing {filteredProducts.length} of {products.length} products
+              <div className="mt-8 text-center">
+                <div className="inline-block px-4 py-2 bg-indigo-50 text-indigo-700 rounded-full text-sm font-medium">
+                  Showing {filteredProducts.length} of {products.length} products
+                </div>
               </div>
             )}
           </div>

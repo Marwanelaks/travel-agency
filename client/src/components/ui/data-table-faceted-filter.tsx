@@ -31,13 +31,26 @@ interface DataTableFacetedFilterProps<TData, TValue> {
   }[]
 }
 
-export function DataTableFacetedFilter<TData, TValue>({
-  column,
-  title,
-  options,
-}: DataTableFacetedFilterProps<TData, TValue>) {
-  const facets = column?.getFacetedUniqueValues()
-  const selectedValues = new Set(column?.getFilterValue() as string[])
+export function DataTableFacetedFilter<TData, TValue>(
+  props: React.ComponentPropsWithoutRef<typeof Popover> & {
+    title?: string
+    options: {
+      label: string
+      value: string
+      icon?: React.ComponentType<{ className?: string }>
+    }[]
+    column?: Column<TData, TValue>
+  }
+) {
+  const { title, options, column } = props
+
+  // Early return if column is undefined to prevent errors
+  if (!column) {
+    return null
+  }
+
+  const facets = column.getFacetedUniqueValues()
+  const selectedValues = new Set(column.getFilterValue() as string[])
 
   return (
     <Popover>
@@ -86,6 +99,40 @@ export function DataTableFacetedFilter<TData, TValue>({
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
+              <div className="p-2">
+                <div className="flex items-center justify-between">
+                  <CommandItem
+                    className="flex-1"
+                    key="all"
+                    onSelect={() => {
+                      column?.setFilterValue(undefined)
+                    }}
+                  >
+                    <div
+                      className={cn(
+                        "mr-2 h-4 w-4 rounded-full border border-gray-200 dark:border-gray-800",
+                        !selectedValues.size && "bg-primary"
+                      )}
+                    />
+                    <span>All</span>
+                    {!selectedValues.size && (
+                      <Check className="ml-auto h-4 w-4" />
+                    )}
+                  </CommandItem>
+                  <div className="space-x-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-7 px-2"
+                      onClick={() => column?.setFilterValue(undefined)}
+                      disabled={!selectedValues.size}
+                    >
+                      Reset
+                    </Button>
+                  </div>
+                </div>
+                <div className="my-2 border-t border-gray-100 dark:border-gray-800" />
+              </div>
               {options.map((option) => {
                 const isSelected = selectedValues.has(option.value)
                 return (
