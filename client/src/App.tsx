@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate, useRoutes } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
+import DashboardPage from './pages/DashboardPage';
 import { WelcomePage } from './pages/WelcomePage';
 import { ProductsPage } from './pages/ProductsPage';
 import { CreateProductPage } from './pages/CreateProductPage';
@@ -12,7 +13,6 @@ import UsersPage from './pages/users/UsersPage';
 import { ShopPage } from './pages/ShopPage';
 import { RequireAuth } from './components/RequireAuth';
 import { CartProvider } from './components/providers/cart-provider';
-import { DashboardRoutes } from './routes/DashboardRoutes';
 
 
 // Products route component with nested routes (protected)
@@ -34,12 +34,12 @@ function App() {
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/login" element={<LoginPage />} />
         
-        {/* Protected dashboard routes */}
+        {/* Protected routes */}
         <Route
           path="/dashboard/*"
           element={
             <RequireAuth>
-              <DashboardRoutes />
+              <DashboardPage />
             </RequireAuth>
           }
         />

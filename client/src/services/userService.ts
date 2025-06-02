@@ -33,58 +33,8 @@ export const getUsers = async (): Promise<User[]> => {
 };
 
 export const getUser = async (id: string): Promise<User> => {
-  try {
-    const response = await api.get<{ data: User }>(`/users/${id}`);
-    return response.data.data;
-  } catch (error) {
-    console.error('Error fetching user:', error);
-    // Fallback to mock data for demo purposes
-    // In production, this should be removed and the error should be properly handled
-    console.warn('Using mock user data as fallback');
-    
-    // Mock data for demo purposes
-    const mockUsers = [
-      {
-        id: '1',
-        name: 'John Doe',
-        email: 'john@example.com',
-        role: 'SuperAdmin' as UserRole,
-        created_at: '2025-01-01T00:00:00.000Z',
-        updated_at: '2025-01-01T00:00:00.000Z'
-      },
-      {
-        id: '2',
-        name: 'Jane Smith',
-        email: 'jane@example.com',
-        role: 'Seller' as UserRole,
-        created_at: '2025-01-02T00:00:00.000Z',
-        updated_at: '2025-01-02T00:00:00.000Z'
-      },
-      {
-        id: '3',
-        name: 'Bob Johnson',
-        email: 'bob@example.com',
-        role: 'Customer' as UserRole,
-        created_at: '2025-01-03T00:00:00.000Z',
-        updated_at: '2025-01-03T00:00:00.000Z'
-      }
-    ];
-    
-    const mockUser = mockUsers.find(user => user.id === id);
-    if (mockUser) {
-      return mockUser;
-    }
-    
-    // If no matching mock user, create one with the requested ID
-    return {
-      id,
-      name: `User ${id}`,
-      email: `user${id}@example.com`,
-      role: 'Customer' as UserRole,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    };
-  }
+  const response = await api.get<{ data: User }>(`/users/${id}`);
+  return response.data.data;
 };
 
 export const createUser = async (userData: CreateUserData): Promise<User> => {

@@ -108,7 +108,7 @@ export function WelcomePage() {
   const getDefaultImageByType = (type: ProductType) => {
     const defaultImages = {
       hotel: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
-      flight: 'https://images.unsplash.com/photo-1436491865333-4bdcb1bd645d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
+      flight: 'https://images.unsplash.com/photo-1549144511-f099e773c147?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       sport: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
       entertainment: 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
       package: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
@@ -161,7 +161,7 @@ export function WelcomePage() {
 
       <main>
         {/* Hero Section with Background Image and Overlay */}
-        <div className="relative overflow-hidden bg-cover bg-center h-[80vh]" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80')" }}>
+        <div className="pt-20 relative overflow-hidden bg-cover bg-center h-[150vh] md:h-[95vh]" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80')" }}>
           <div className={`absolute inset-0 bg-gradient-to-r ${gradientPreset.heroGradient} backdrop-blur-[2px]`}></div>
           <div className="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8 h-full flex flex-col justify-center">
             <div className="text-center">
@@ -393,7 +393,7 @@ export function WelcomePage() {
                           >
                             <a 
                               href={`/products/${product.id}`}
-                              className="whitespace-nowrap flex items-center justify-center w-full h-full"
+                              className="whitespace-nowrap flex items-center justify-center w-full h-full " style={{padding: '0.5rem'}}
                             >
                               <Eye className="w-4 h-4 mr-1" />
                               View Details
